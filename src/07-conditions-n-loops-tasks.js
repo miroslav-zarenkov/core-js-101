@@ -178,8 +178,15 @@ function isInsideCircle(circle, point) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const stringLength = str.length;
+  for (let i = 0; i < stringLength; i += 1) {
+    const char = str[i];
+    if (str.indexOf(char) === str.lastIndexOf(char)) {
+      return char;
+    }
+  }
+  return null;
 }
 
 
@@ -205,8 +212,30 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let start = '';
+  let end = '';
+  let firstChar = 0;
+  let lastChar = 0;
+  if (a < b) {
+    firstChar = a;
+    lastChar = b;
+  } else {
+    firstChar = b;
+    lastChar = a;
+  }
+  if (isStartIncluded) {
+    start = '[';
+  } else {
+    start = '(';
+  }
+  if (isEndIncluded) {
+    end = ']';
+  } else {
+    end = ')';
+  }
+
+  return `${start}${firstChar}, ${lastChar}${end}`;
 }
 
 
@@ -266,8 +295,20 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const ccnString = ccn.toString();
+  let even = false;
+  let sum = 0;
+  for (let i = ccnString.length - 1; i >= 0; i -= 1) {
+    let char = parseInt(ccnString[i], 10);
+    if (even) {
+      char *= 2;
+      if (char > 9) char -= 9;
+    }
+    sum += char;
+    even = !even;
+  }
+  return (sum % 10) === 0;
 }
 
 /**
@@ -353,8 +394,23 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  let commonPath = '';
+  const minLength = Math.min(...pathes.map((str) => str.length));
+
+  for (let i = 0; i < minLength; i += 1) {
+    const currentChar = pathes[0][i];
+    if (pathes.every((str) => str[i] === currentChar)) {
+      commonPath += currentChar;
+    } else {
+      break;
+    }
+  }
+
+  const lastSlash = commonPath.lastIndexOf('/');
+  commonPath = commonPath.substring(0, lastSlash + 1);
+
+  return commonPath;
 }
 
 
@@ -376,8 +432,24 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const m = m1.length;
+  const n = m1[0].length;
+  const p = m2[0].length;
+  const m3 = new Array(m);
+  for (let i = 0; i < m; i += 1) {
+    m3[i] = new Array(p).fill(0);
+  }
+
+  for (let i = 0; i < m; i += 1) {
+    for (let j = 0; j < p; j += 1) {
+      for (let k = 0; k < n; k += 1) {
+        m3[i][j] += m1[i][k] * m2[k][j];
+      }
+    }
+  }
+
+  return m3;
 }
 
 

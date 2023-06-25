@@ -504,8 +504,14 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
+function sortCitiesArray(arr) {
+  const newArray = arr.sort((a, b) => {
+    if (a.country !== b.country) {
+      return a.country.localeCompare(b.country);
+    }
+    return a.city.localeCompare(b.city);
+  });
+  return newArray;
 }
 
 /**
@@ -650,8 +656,16 @@ function selectMany(/* arr, childrenSelector */) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  if (indexes.length === 0) {
+    return arr;
+  }
+
+  const currentIndex = indexes[0];
+  const remainingIndexes = indexes.slice(1);
+  const nestedArray = arr[currentIndex];
+
+  return getElementByIndexes(nestedArray, remainingIndexes);
 }
 
 
