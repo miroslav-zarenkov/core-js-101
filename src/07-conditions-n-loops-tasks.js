@@ -130,8 +130,11 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  const coordFirstBottom = rect1.top + rect1.height;
+  const coordFirstRight = rect1.left + rect1.width;
+  if (coordFirstBottom > rect2.top && coordFirstRight > rect2.left) return true;
+  return false;
 }
 
 
@@ -351,8 +354,25 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  if (str.length === 0) return true;
+  const stack = [];
+  for (let i = 0; i < str.length; i += 1) {
+    const bracket = str[i];
+    if (bracket === '[' || bracket === '{' || bracket === '(' || bracket === '<') {
+      stack.push(bracket);
+    } else if (bracket === ']') {
+      if (stack.pop() !== '[') return false;
+    } else if (bracket === '}') {
+      if (stack.pop() !== '{') return false;
+    } else if (bracket === ')') {
+      if (stack.pop() !== '(') return false;
+    } else if (bracket === '>') {
+      if (stack.pop() !== '<') return false;
+    }
+  }
+
+  return stack.length === 0;
 }
 
 
@@ -483,8 +503,22 @@ function getMatrixProduct(m1, m2) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const array = position;
+  for (let i = 0; i < position.length; i += 1) {
+    for (let j = 0; j < position.length; j += 1) {
+      const cell = array[i][j];
+      if (cell !== undefined
+          && ((array[i][j + 1] === cell && array[i][j + 2] === cell)
+          || (array[i + 1] && array[i + 1][j] === cell && array[i + 2] && array[i + 2][j] === cell)
+          || (array[i + 1] && array[i + 1][j + 1] === cell
+              && array[i + 2] && array[i + 2][j + 2] === cell)
+          || (array[i + 1] && array[i + 1][j - 1] === cell
+              && array[i + 2] && array[i + 2][j - 2] === cell)
+          )) return cell;
+    }
+  }
+  return undefined;
 }
 
 
